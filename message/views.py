@@ -1,16 +1,18 @@
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.utils import IntegrityError
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, FormView
 from django.views.generic.list import ListView
 
-from message.forms import RegisterForm
-from message.models import Message, Follow
+from message.forms import RegisterForm, MessageForm
+from message.models import Message, Follow, Like
 
 
 class RegisterView(CreateView):
@@ -23,9 +25,12 @@ class TimelineView(ListView):
     template_name = 'index.html'
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            pass
-        else:
-            return Message.objects.all()
+
+            #return Message.objects.filter(user=self.request.user).order_by("-created")
+        #else:
+            return Message.objects.all().order_by("-created")
+
+
 
 
 class ProfileBaseView(DetailView):
@@ -61,3 +66,41 @@ def follow_user(request, username):
     except IntegrityError:
         messages.error(request, "You are already following this user")
     return redirect('profile', username)
+
+def unfollow_user(request, username):
+    user = get_object_or_404(User, username=username)
+    try:
+        follow = Follow.objects.filter(followed_user=user, following_user=request.user).first()
+        follow.delete()
+        messages.info(request, "You are now unfollowing {0}".format(username))
+    except IntegrityError:
+        messages.error(request, "You are already following this user")
+    return redirect('profile', username)
+
+def new_chirp(request):
+    if request.method == "POST":
+        form = MessageForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+    return redirect("index")
+
+@csrf_exempt
+def like_message(request):
+    if request.method == "POST":
+        message_id = request.POST.get('id')
+        print(message_id)
+        like_value = bool(int(request.POST.get('like')))
+        print(like_value)
+        message = get_object_or_404(Message, id=message_id)
+        try:
+            like = Like.objects.get(user=request.user, message=message)
+            if like.like == like_value:
+                like.delete()
+            else:
+                like.like = like_value
+                like.save()
+        except Like.DoesNotExist:
+            like = Like(user=request.user, message=message, like=like_value)
+            like.save()
+
+    return JsonResponse({'success':'true'})

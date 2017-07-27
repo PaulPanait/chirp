@@ -1,19 +1,81 @@
-{% extends 'base.html' %}
-{% block content %}
-<form method="post" class="register-form">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    <p>
-        <label for="id_username">Username:</label>
-        <input type="text" name="username" autofocus maxlength="254" required id="id_username"/>
-        {{ form.username.errors }}
-    </p>
-    <p>
-        <label for="id_password">Password:</label>
-        <input type="password" name="password" required id="id_password"/>
-        {{ form.password.errors }}
-    </p>
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chirp</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <button type="submit">Login</button>
-</form>
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+{% block content %}
+    <div align="center" class="container">
+	<div class="row">
+		<form method="post" class="form-signin mg-btm">
+            {% csrf_token %}
+    {{ form.non_field_errors }}
+    	<h3 class="heading-desc">
+            Introduceti datele de logare aici
+        </h3>
+		<div class="social-box">
+			<div class="row mg-btm">
+             <div class="col-md-12">
+                <a href="#" class="btn btn-primary btn-block">
+                  <i class="icon-facebook"></i>    Login with Facebook
+                </a>
+			</div>
+			</div>
+			<div class="row">
+			<div class="col-md-12">
+                <a href="#" class="btn btn-info btn-block" >
+                  <i class="icon-twitter"></i>    Login with Twitter
+                </a>
+            </div>
+          </div>
+		</div>
+		<div class="main">
+        <input type="text" class="form-control" placeholder="User" name="username" autofocus maxlength="254" required id="id_username"/>
+        {{ form.username.errors }}
+
+        <input type="password" class="form-control" placeholder="Password" name="password" required id="id_password"/>
+        {{ form.password.errors }}
+
+        Are you a business? <a href=""> Get started here</a>
+		<span class="clearfix"></span>
+        </div>
+		<div class="login-footer">
+		<div class="row">
+                        <div class="col-xs-6 col-md-6">
+                            <div class="left-section">
+								<a href="">Forgot your password?</a>
+								<a href="">Sign up now</a>
+							</div>
+                        </div>
+                        <div class="col-xs-6 col-md-6 pull-right">
+                            <button type="submit" class="btn btn-large btn-danger pull-right">Login</button>
+                        </div>
+                    </div>
+
+		</div>
+      </form>
+	</div>
+</div>
+    </body>
+    </html>
+
 {% endblock %}
