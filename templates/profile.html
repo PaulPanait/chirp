@@ -33,11 +33,12 @@
     </div>
     <div class="col-xs-9">
         <ul class="nav nav-tabs">
-            <li role="presentation" class="active"><a href="#">Chirps</a></li>
-            <li role="presentation"><a href="#">Following</a></li>
-            <li role="presentation"><a href="#">Followers</a></li>
+            <li role="presentation" class="active"><a href="#chirps-tab" data-toggle="tab">Chirps</a></li>
+            <li role="presentation"><a href="#following-tab" data-toggle="tab">Following</a></li>
+            <li role="presentation"><a href="#followers-tab" data-toggle="tab">Followers</a></li>
         </ul>
-
+        <div class="tab-content">
+        <div class="tab-pane active" id="chirps-tab">
         {% for message in chirps %}
         <div class="row chirp">
             <div class="panel panel-default">
@@ -56,6 +57,11 @@
         </div>
 
         {% endfor %}
+        </div>
+        <div class="tab-pane" id="following-tab">
+            <p>DA NO</p>
+        </div>
+        </div>
 
     </div>
 

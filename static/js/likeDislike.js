@@ -15,10 +15,12 @@
            });
            request.done(function () {
                alert("SUCCESS!");
+               location.reload()
 
            });
            request.fail(function () {
                alert("FAILL!");
+               location.reload()
            });
 
        }) ;
@@ -33,10 +35,12 @@
            });
            request.done(function () {
                alert("SUCCESS!");
+               location.reload()
 
            });
            request.fail(function () {
                alert("FAILL!");
+               location.reload()
            });
        });
     });
